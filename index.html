@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Heart Vault</title>
+    <title>Valentine Protocol</title>
     
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Dancing+Script:wght@600&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
     
@@ -183,7 +183,6 @@
             color: var(--gold); padding: 5px 15px; border-radius: 20px;
             font-size: 0.75rem; display: inline-block; margin-top: 10px;
         }
-
         /* --- WATERMARK STYLING --- */
         .watermark {
             position: fixed;
@@ -248,7 +247,7 @@
     <audio id="bg-music" loop></audio>
 
     <div id="create-mode" class="container">
-        <h1>Create Secure Lock</h1>
+        <h1>Create Love Lock</h1>
         
         <div class="input-group">
             <label>Sender Name (The Key)</label>
@@ -276,7 +275,7 @@
         </div>
 
         <button id="seal-btn" class="action-btn" onclick="generateLink()">
-            <i class="fas fa-lock"></i> ENCRYPT MESSAGE
+            <i class="fas fa-heart-circle-bolt"></i> LOCK MY HEART
         </button>
 
         <div id="share-options">
@@ -317,6 +316,7 @@
         
         <div id="reveal-sender" style="color: #666; font-size: 0.8rem; margin-top: 30px; letter-spacing: 2px;"></div>
     </div>
+    <div class="watermark">Created by Iyanuoluwa</div>
 
     <script>
         // --- LOGIC ---
@@ -391,7 +391,8 @@
             document.getElementById('selected-song-display').style.display = 'none';
         }
 
-        // 3. GENERATE (COMPRESSED VERSION)
+        // 3. GENERATE
+     /// 3. GENERATE (COMPRESSED VERSION)
         async function generateLink() {
             const sender = document.getElementById('sender-name').value.trim();
             const message = document.getElementById('secret-text').value;
@@ -405,6 +406,8 @@
 
             try {
                 // --- COMPRESSION STEP ---
+                // We rename keys to single letters to save space
+                // m = message, t = track data, n = name, a = artist, u = url, i = image
                 let minifiedTrack = null;
                 if(selectedTrack) {
                     minifiedTrack = {
@@ -455,8 +458,8 @@
             if (navigator.share) {
                 try {
                     await navigator.share({
-                        title: 'CipherHeart',
-                        text: 'I have encrypted a private message for you. Unlock it here:',
+                        title: 'Lock My Heart',
+                        text: 'I have created a secure message for you. Open it here:',
                         url: generatedFullLink
                     });
                 } catch (err) { console.log('Error sharing:', err); }
@@ -466,6 +469,7 @@
             }
         }
 
+        // 5. DECRYPT
         // 5. DECRYPT (COMPATIBLE WITH COMPRESSED DATA)
         function decryptMessage() {
             const pass = document.getElementById('unlock-pass').value.trim().toLowerCase();
@@ -481,6 +485,7 @@
                     const data = JSON.parse(decryptedStr);
                     
                     // --- DECOMPRESS STEP ---
+                    // Check if it's the new "Mini" format (m/t) or old format (msg/track)
                     const msgText = data.m || data.msg; 
                     const trackData = data.t || data.track;
                     // -----------------------
@@ -493,9 +498,10 @@
                     document.getElementById('reveal-sender').innerText = `// SENT BY ${pass.toUpperCase()}`;
                     fireConfetti(); 
 
-                    // Handle Music
+                    // Handle Music (Support both Mini keys and Old keys)
                     if(trackData && (trackData.u || trackData.url)) {
                         const audio = document.getElementById('bg-music');
+                        // Use .u (new) or .url (old)
                         audio.src = trackData.u || trackData.url;
                         audio.volume = 0.5;
 
@@ -523,16 +529,6 @@
                 btn.style.transform = "translateX(10px)";
                 setTimeout(() => btn.style.transform = "translateX(0)", 100);
             }
-        }
-
-        function fireConfetti() {
-            const end = Date.now() + 1500;
-            const colors = ['#ff005c', '#ff99c8', '#ffd700'];
-            (function frame() {
-                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: colors });
-                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: colors });
-                if (Date.now() < end) requestAnimationFrame(frame);
-            }());
         }
     </script>
 </body>
