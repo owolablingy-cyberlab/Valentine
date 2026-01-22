@@ -183,57 +183,8 @@
             color: var(--gold); padding: 5px 15px; border-radius: 20px;
             font-size: 0.75rem; display: inline-block; margin-top: 10px;
         }
-        /* --- WATERMARK STYLING --- */
-        .watermark {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid var(--gold);
-            color: var(--gold);
-            padding: 8px 15px;
-            border-radius: 8px;
-            font-family: 'JetBrains Mono', monospace; /* Tech vibe */
-            font-size: 0.65rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            z-index: 9999; /* Always on top */
-            transform-origin: top center; /* This makes it swing from the top */
-            animation: dangle 3s ease-in-out infinite;
-            backdrop-filter: blur(4px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            pointer-events: none; /* Allows clicking through it if needed */
-        }
-
-        /* THE DANGLING ANIMATION */
-        @keyframes dangle {
-            0% { transform: rotate(3deg); }
-            50% { transform: rotate(-3deg); }
-            100% { transform: rotate(3deg); }
-        }
-
-        /* Optional: Make it look like it's hanging by a thread */
-        .watermark::before {
-            content: '';
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 1px;
-            height: 15px;
-            background: var(--gold);
-        }
-        .watermark::after {
-            content: '';
-            position: absolute;
-            top: -18px; /* Top of the thread */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 4px;
-            height: 4px;
-            background: var(--primary-pink);
-            border-radius: 50%;
-        }
+        
+        
     </style>
 </head>
 <body>
@@ -320,7 +271,7 @@
             <i class="fas fa-paper-plane"></i> Send Your Own Lock
         </button>
     </div>
-    <div class="watermark">Created by Iyanuoluwa</div>
+    
 
    <script>
         // --- LOGIC ---
